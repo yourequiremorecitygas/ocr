@@ -45,7 +45,7 @@ def find_row_min_max(img):
             break
 
     # @hardware fitting
-    return row_min + 20, row_min + 110
+    return row_min + 20, row_min + 100
 
 def cut_digits(img, row_min, row_max, col_min, col_max, size_row, size_col):
     #black_img = get_black(size_row, size_col)
@@ -95,7 +95,7 @@ def binary_test(img):
 
 # input : imge file의 path
 # output : 숫자인식 결과, 인식 범위 좌표의 왼쪽 위 좌표의 점과 너비, 높이
-# 숫자인식결과, row_min, col_min, w, h 를 튜플 형태로 반환(row + h, col + w가 오른쪽 아래 점의 위치)
+# 숫자인식결과, row_min, col_min, h, w 를 튜플 형태로 반환(row + h, col + w가 오른쪽 아래 점의 위치)
 def ocr(img_path):
     img = cv2.imread(img_path)
     size_row, size_col = len(img), len(img[0])
@@ -135,6 +135,7 @@ def ocr(img_path):
         #num = ocr_digit2(digit_img)
         result_val.append(num)
 
+    result_val[0] = 0
     print(result_val)
 
     #cv2.imshow('original', img)
@@ -142,7 +143,7 @@ def ocr(img_path):
     #cv2.waitKey(0)
     #cv2.destroyAllWindows()
 
-    return (result_val, row_min, row_max - row_min, col_min, col_max - col_min)
+    return (result_val, row_min, col_min, row_max - row_min, col_max - col_min)
 
 def box_fitting(digit_image):
     row_min, row_max = 0, len(digit_image)
@@ -236,11 +237,11 @@ def ocr_digit(digit_img, comp_digit_images):
                     max_sim_num = num
                     
         count[max_sim_num] += 1
-        #print(max_sim)
-        #print(max_sim_num)
-        #cv2.imshow('bin', dst)
-        #cv2.waitKey(0)
-        #cv2.destroyAllWindows()
+        print(max_sim)
+        print(max_sim_num)
+        cv2.imshow('bin', dst)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
 
     #print(count)
 
@@ -292,8 +293,8 @@ def calculate_precision():
 
     return 0
 
-# if __name__ == "__main__":
-    #path = "C:/python/pattern/images/00005.jpg"
-    #ans, r, c, w, h = ocr(path)
+#if __name__ == "__main__":
+#    path = "C:/python/pattern/images/rotated/01261.jpg"
+#    ans, r, c, w, h = ocr(path)
 
-    #calculate_precision()
+#    #calculate_precision()
