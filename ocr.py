@@ -237,11 +237,11 @@ def ocr_digit(digit_img, comp_digit_images):
                     max_sim_num = num
                     
         count[max_sim_num] += 1
-        print(max_sim)
-        print(max_sim_num)
-        cv2.imshow('bin', dst)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        #print(max_sim)
+        #print(max_sim_num)
+        #cv2.imshow('bin', dst)
+        #cv2.waitKey(0)
+        #cv2.destroyAllWindows()
 
     #print(count)
 
