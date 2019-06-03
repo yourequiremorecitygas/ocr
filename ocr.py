@@ -23,7 +23,7 @@ def red_detection(img):
     hsv_image = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
     red_mask = cv2.inRange(hsv_image, np.array([170, 70, 30]), np.array([180, 255, 255]))
-
+    
     result = cv2.bitwise_and(img, img, mask=red_mask)
 
     return result
@@ -45,7 +45,7 @@ def find_row_min_max(img):
             break
 
     # @hardware fitting
-    return row_min + 20, row_min + 100
+    return row_min + 25, row_min + 105
 
 def cut_digits(img, row_min, row_max, col_min, col_max, size_row, size_col):
     #black_img = get_black(size_row, size_col)
@@ -71,28 +71,6 @@ def binary_global(img, threshold):
     ret, dst = cv2.threshold(gray, threshold, 255, cv2.THRESH_BINARY)
     return dst
 
-def binary_test(img):
-    gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-    for i in range(10, 50):
-        ret, dst = cv2.threshold(gray, i, 255, cv2.THRESH_BINARY)
-        kernel = np.ones((2, 2), np.uint8)
-        dst = cv2.erode(dst, kernel, iterations = 3)
-        dst = cv2.dilate(dst, kernel, iterations = 3)
-
-        # @hardware fitting
-        col_gap = 123
-
-        for idx in range(5):
-            digit_img = dst[:, idx * col_gap: (idx + 1) * col_gap - 1]
-            cv2.imshow('red', digit_img)
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
-            #num = ocr_digit(digit_img)
-            text = pytesseract.image_to_string(digit_img, lang='eng')
-            print(text)
-        #text = pytesseract.image_to_string(dst, lang='eng')
-        #print(text)
-
 # input : imge file의 path
 # output : 숫자인식 결과, 인식 범위 좌표의 왼쪽 위 좌표의 점과 너비, 높이
 # 숫자인식결과, row_min, col_min, h, w 를 튜플 형태로 반환(row + h, col + w가 오른쪽 아래 점의 위치)
@@ -104,6 +82,11 @@ def ocr(img_path):
     red_bin_img = binary_local(red_img)
     red_bin_img = cv2.bitwise_not(red_bin_img)
     row_min, row_max = find_row_min_max(red_bin_img)
+
+    #cv2.imshow('red_img', red_bin_img)
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()
+    
     # @hardware fitting
     col_min, col_max = 20, 590
 
@@ -114,7 +97,7 @@ def ocr(img_path):
     end = 70
 
     digits_img = cut_digits(img, row_min, row_max, col_min, col_max, size_row, size_col)
-
+    
     #cv2.imshow('digits_img', digits_img)
     #cv2.waitKey(0)
     #cv2.destroyAllWindows()
@@ -136,7 +119,7 @@ def ocr(img_path):
         result_val.append(num)
 
     result_val[0] = 0
-    print(result_val)
+    #print(result_val)
 
     #cv2.imshow('original', img)
     #cv2.imshow('digits_img', digits_img)
@@ -285,16 +268,36 @@ def calculate_precision():
 
     for image_path in img_names:
         num = image_path[0:5]
-        print(f'ans : {num}')
+        #print(f'ans : {num}')
         image_path = dir_path + image_path
-        ocr(image_path)
-        img = cv2.imread(image_path)
-        img = binary_global(img, 127)
+        ans, r, c, h, w = ocr(image_path)
+        num_list = []
+
+        tmp_num = num
+        for i in range(5):
+            tmp_num = int(tmp_num)
+            num_list.append(tmp_num % 10)
+            tmp_num /= 10
+
+        for i in reversed(range(5)):
+            if num_list[4 - i] != ans[i]:
+                print(f'expected ans : {num}')
+                print(f'ocr ans : {ans}')
+                break
+        #img = cv2.imread(image_path)
+        #img = binary_global(img, 127)
+
+    print('done')
 
     return 0
 
-#if __name__ == "__main__":
-#    path = "C:/python/pattern/images/rotated/01261.jpg"
-#    ans, r, c, w, h = ocr(path)
+if __name__ == "__main__":
+    path = "C:/python/pattern/images/00034test3.png"
+    ans, r, c, h, w = ocr(path)
+    print(ans)
+    #print(r)
+    #print(c)
+    #print(h)
+    #print(w)
 
-#    #calculate_precision()
+    #calculate_precision()
