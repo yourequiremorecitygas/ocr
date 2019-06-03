@@ -126,7 +126,7 @@ def ocr(img_path):
     #cv2.waitKey(0)
     #cv2.destroyAllWindows()
 
-    return (result_val, row_min, col_min, row_max - row_min, col_max - col_min)
+    return (result_val, row_min, col_min, row_max - row_min, col_max - col_min, img_path)
 
 def box_fitting(digit_image):
     row_min, row_max = 0, len(digit_image)
@@ -291,10 +291,10 @@ def calculate_precision():
 
     return 0
 
-if __name__ == "__main__":
-    path = "C:/python/pattern/images/00034test3.png"
-    ans, r, c, h, w = ocr(path)
-    print(ans)
+#if __name__ == "__main__":
+    #path = "C:/python/pattern/images/00034test3.png"
+    #ans, r, c, h, w, path = ocr(path)
+    #print(ans)
     #print(r)
     #print(c)
     #print(h)
