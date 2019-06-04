@@ -7,7 +7,7 @@ def get_black(size_row, size_col):
 
     black_img = np.zeros((size_row, size_col, 3), np.uint8)
 
-    black_img[:, 0:size_col] = [0, 0, 0]
+    black_img[0:size_row, 0:size_col] = [0, 0, 0]
 
     return black_img
 
