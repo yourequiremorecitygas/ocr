@@ -7,7 +7,7 @@ def get_black(size_row, size_col):
 
     black_img = np.zeros((size_row, size_col, 3), np.uint8)
 
-    black_img[0:size_row, 0:size_col] = [0, 0, 0]
+    black_img[:, 0:size_col] = [0, 0, 0]
 
     return black_img
 
@@ -45,7 +45,7 @@ def find_row_min_max(img):
             break
 
     # @hardware fitting
-    return row_min + 25, row_min + 105
+    return row_min + 25, min(row_min + 105, len(img))
 
 def cut_digits(img, row_min, row_max, col_min, col_max, size_row, size_col):
     #black_img = get_black(size_row, size_col)
@@ -284,17 +284,15 @@ def calculate_precision():
                 print(f'expected ans : {num}')
                 print(f'ocr ans : {ans}')
                 break
-        #img = cv2.imread(image_path)
-        #img = binary_global(img, 127)
 
     print('done')
 
     return 0
 
-#if __name__ == "__main__":
-    #path = "C:/python/pattern/images/00034test3.png"
-    #ans, r, c, h, w, path = ocr(path)
-    #print(ans)
+if __name__ == "__main__":
+    path = "C:/python/pattern/images/error_test.png"
+    ans, r, c, h, w, path = ocr(path)
+    print(ans)
     #print(r)
     #print(c)
     #print(h)
