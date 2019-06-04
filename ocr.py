@@ -289,10 +289,10 @@ def calculate_precision():
 
     return 0
 
-if __name__ == "__main__":
-    path = "C:/python/pattern/images/error_test.png"
-    ans, r, c, h, w, path = ocr(path)
-    print(ans)
+#if __name__ == "__main__":
+#    path = "C:/python/pattern/images/error_test.png"
+#    ans, r, c, h, w, path = ocr(path)
+#    print(ans)
     #print(r)
     #print(c)
     #print(h)
