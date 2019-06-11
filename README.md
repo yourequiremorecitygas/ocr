@@ -1,4 +1,6 @@
-## OCR for city gas ![python 3.7](https://img.shields.io/badge/java-1.8-orange.svg) ![build passing](https://img.shields.io/badge/build-passing-brightgreen.svg) 
+## OCR for city gas [![python3.7](https://img.shields.io/pypi/pyversions/kubernetes.svg)](https://pypi.python.org/pypi/kubernetes) ![build passing](https://img.shields.io/badge/build-passing-brightgreen.svg) 
+
+
 
 파이썬으로 쓰여진 가스 계량기 검침을 위한 OCR 입니다.
 
